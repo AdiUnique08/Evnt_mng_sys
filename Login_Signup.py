@@ -107,6 +107,3 @@ if user_inp_1 == 1:
     elif user_inp_2 == 2:
         print("\t\tMain Page (Student)")
 print("\t\tWelcome <name>")
-
-
-# testing pandas DataFrame()
