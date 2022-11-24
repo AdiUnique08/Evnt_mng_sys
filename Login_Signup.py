@@ -1,6 +1,8 @@
 # Testing for working of login/signup
 
 a = 1
+userpass_std_new, userpass_adm_new = {}, {}
+username, password = '', ''
 while a == 1:
     print("\t\tWelcome to <App_name>")
     print("\tWould you like to Login or Signup? (1/2)")
