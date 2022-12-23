@@ -1,0 +1,38 @@
+1. Start
+2. Login Signup
+3. display interface - 1. Admins 
+                                   2. Students 
+4.1. Interface (teachers):
+    1. Posting:
+        a. Events:
+            i. Announcements (admins)
+           ii. Circular form fill
+          iii. Participation list
+          iv. Winners (depending on no. of participants (can be adjusted by the admin))
+    2. Settings
+        a. Profile:
+            i. Name
+           ii. Post (Teacher/Admin/Non-teaching staff)
+       b. Sign out/log out
+    3. Participation
+4.2 Interface (students):
+    1. Posting:
+        a. Participation in events
+        b. Circular form fill
+        c. Participation status (participating in events)
+    2. Settings:
+        a. Profile:
+            i. Name
+           ii. Class and Sec
+          iii. Gender/Age/PSID/Admission number
+          iv. E-mail
+        b. Sign out/log out
+     3. Participation
+
+
+
+
+
+
+
+
