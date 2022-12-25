@@ -1,10 +1,10 @@
 1. Start
-2. Login Signup
+2. Login Signup (User or guest)
 3. display interface - 1. Admins 
-                       2. Students 
+                       2. Students
 4.1. Interface (teachers):
     1. Posting:
-        a. Events:
+        a. Events/News
             i. Announcements/Regular news (admins) 
            ii. Circular form fill
           iii. Participation list
@@ -12,9 +12,13 @@
     2. Settings
         a. Profile:
             i. Name
-           ii. Post (Teacher/Admin/Non-teaching staff)
-       b. Sign out/log out
-    3. Participation
+           ii. Gnder/Age/PSID/Admission No.
+          iii. Email
+           iv. Post (Teacher/Admin/Non-teaching staff)
+       b. Participation:
+            i. Posts' History
+           ii. Participation History
+       c. Sign out/log out
 4.2 Interface (students):
     1. Posting:
         a. Participation in events (Posting of ideas, thoughts, helping others, etc.)
@@ -28,5 +32,9 @@
           iii. Gender/Age/PSID/Admission number
           iv. E-mail
            v. Participation history
-        b. Sign out/log out
-     3. Participation
+        b. Participation:
+           i. Posts' History
+          ii. Participation History
+        c. Sign Out/Log out
+5. Exit from app
+6. Stop
