@@ -1,8 +1,6 @@
 1. Start
-2. Login Signup (User or guest)
-3. display interface - 1. Admins 
-                       2. Students
-4.1. Interface (teachers):
+2. Login Signup (Only for admins)
+4.1. Interface (teachers): (Login needed)
     1. Posting:
         a. Events/News
             i. Announcements/Regular news (admins) 
@@ -19,7 +17,7 @@
             i. Posts' History
            ii. Participation History
        c. Sign out/log out
-4.2 Interface (students):
+4.2 Interface (students) (no need to login)
     1. Posting:
         a. Participation in events (Posting of ideas, thoughts, helping others, etc.)
         b. Circular form fill
