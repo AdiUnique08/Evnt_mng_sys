@@ -5,7 +5,7 @@
 4.1. Interface (teachers):
     1. Posting:
         a. Events:
-            i. Announcements (admins)
+            i. Announcements/Regular news (admins) 
            ii. Circular form fill
           iii. Participation list
           iv. Winners (depending on no. of participants (can be adjusted by the admin))
@@ -17,7 +17,7 @@
     3. Participation
 4.2 Interface (students):
     1. Posting:
-        a. Participation in events
+        a. Participation in events (Posting of ideas, thoughts, helping others, etc.)
         b. Circular form fill
         c. Participation status (participating in events)
         d. Winner status
