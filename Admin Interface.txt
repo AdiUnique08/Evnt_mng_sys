@@ -1,0 +1,35 @@
+---------ADMIN_INTERFACE---------
+
+   1. Display events
+   2. Post
+   2. Settings
+   Choose (Enter number only): 
+
+
+
+---------EVENTS---------
+   <By choosing this the user>
+   <is able to see all the posts>
+   <related to the ongoing events>
+
+   <If possible display the>
+   <ongoing events and let the user>
+   <choose to see posts related to>
+   <that event.>
+
+
+
+---------POSTING---------
+   1. Announce an event
+   2. Deploy Circular 
+   3. Participation list
+   4. Winners
+   Choose (Enter number only): 
+
+
+
+---------SETTINGS---------
+   1. Profile
+   2. Particpation
+   3. Log out
+   Choose (Enter number only): 
