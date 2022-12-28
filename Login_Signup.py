@@ -218,8 +218,7 @@ def signup():
                                                   'T_NT', 'ROLE', 'POST', 'EMAIL'])
 
             # Transferring updated df to Excel sheet = 'Admins'
-            with pd.ExcelWriter(r'C:\Users\97150\OneDrive\Desktop\Accounts_Info.xlsx', engine='openpyxl', mode='a',
-                                if_sheet_exists='replace') as writer:
+            with pd.ExcelWriter(root, engine='openpyxl', if_sheet_exists='replace', mode='a') as writer:
                 user_info_adm.to_excel(writer, sheet_name='Admins')
 
             print("\n\n\n\tThank you for signing up")
@@ -327,8 +326,7 @@ def signup():
                                                    'SEC', 'ROLE', 'EMAIL'])
 
             # Transferring updated df to Excel sheet = 'Students'
-            with pd.ExcelWriter(r'C:\Users\97150\OneDrive\Desktop\Accounts_Info.xlsx', engine='openpyxl', mode='a',
-                                if_sheet_exists='replace') as writer:
+            with pd.ExcelWriter(root, engine='openpyxl', if_sheet_exists='replace', mode='a') as writer:
                 user_info_std.to_excel(writer, sheet_name='Students')
 
             print("\n\n\n\tThank you for signing up")
@@ -346,9 +344,13 @@ print("---------Welcome to Event Management System---------")
 while True:
     print("\t1. Login\n\t2. Signup")
     user_inp_1 = int(input("\tChoose (Enter number): "))
-
+    
+    # Assigning path of file to a variable
+    # Users can change this path depending on where the excel file has been stored
+    root = r'C:\Users\97150\OneDrive\Desktop\Accounts_Info.xlsx'
+    
     # Obtaining Excel file containing Usernames and passwords
-    userpass = pd.ExcelFile(r'C:\Users\97150\OneDrive\Desktop\Accounts_Info.xlsx')
+    userpass = pd.ExcelFile(root)
     user_info = []
 
     if user_inp_1 == 1:
