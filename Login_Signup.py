@@ -117,6 +117,10 @@ def signup():
             post_adm = list(userpass_adm_xl.POST)
             email_adm = list(userpass_adm_xl.EMAIL)
 
+            # List of special characters to ensure password consists of them
+            spec_ch = ['!', '@', '#', '$', '%', '^', '&', '*', '(', ')', '-', '_', '+', '=',
+                       '[', ']', '{', '}', ';', ':', '<', '>', '/', '\\', '|', ' ']
+
             # Taking Information related to user
             username = input("\n\n\n\tUsername: ")
 
@@ -131,13 +135,35 @@ def signup():
             # Loop to endure any error in password can be corrected without proceeding further
             while True:
                 password = input("\tPassword: ")
+
+                # Parameter to count the no. of psecial characters
+                count = 0
+
                 # Checking whether password consists of letter and digits
-                if password.isalnum() == True:
+                if password.isalnum() == False:
                     if password.isalpha() == False and password.isdigit() == False:
-                        print("\tValid username and password")
-                        print("\tYou'll be taken further")
-                        input("\tPress Enter to continue")
-                        break
+
+                        # Checking whether password consists of special characters:
+                        for i in password:
+                            if i in spec_ch:
+                                count += 1
+                                if i == password[len(password) - 1]:
+                                    break
+                                else:
+                                    continue
+                            else:
+                                continue
+
+                        # Checking if special characters did exist or not
+                        if count > 0:
+                            print("\tValid username and password")
+                            print("\tYou'll be taken further")
+                            input("\tPress Enter to continue")
+                            break
+                        else:
+                            print("\tPassword doesn't consist of any special characters.")
+                            print("\tPlease add a special character")
+                            continue
 
                     elif password.isalpha() == False and password.isdigit() == True:
                         print("\tPassword doesn't consist of letters")
@@ -181,6 +207,7 @@ def signup():
                     continue
 
                 else:
+                    print("Enter a valid number")
                     continue
 
             print("\n\t1. Teaching\n\t2. Non-Teaching")
@@ -200,7 +227,23 @@ def signup():
                 print("Enter your info again")
                 continue
 
-            email = input("\tEmail: ")
+            # Taking Email as input
+            while True:
+                print("\tCurrently accepting only emails with the following domains:")
+                print("\t1. @gmail.com")
+                print("\t2. @hotmail.com")
+                print("\t3. @yahoo.com")
+                email = input("\tEmail: ")
+
+                # Checking whether email entered consists of a valid domain or not
+                if (email.endswith("@gmail.com") or
+                        email.endswith("@hotmail.com") or
+                        email.endswith("@yahoo.com")):
+                    print("\tValid Email")
+                    break
+                else:
+                    print("\tInvalid Email")
+                    continue
 
             # Appending new values entered to lists
             username_adm.append(username)
@@ -218,7 +261,7 @@ def signup():
                                                   'T_NT', 'ROLE', 'POST', 'EMAIL'])
 
             # Transferring updated df to Excel sheet = 'Admins'
-            with pd.ExcelWriter(root, engine='openpyxl', if_sheet_exists='replace', mode='a') as writer:
+            with pd.ExcelWriter(root, engine='openpyxl', if_sheet_exists='overlay', mode='a') as writer:
                 user_info_adm.to_excel(writer, sheet_name='Admins')
 
             print("\n\n\n\tThank you for signing up")
@@ -253,13 +296,35 @@ def signup():
             # Loop to ensure Valid password is entered
             while True:
                 password = input("\tPassword: ")
+
+                # Parameter to count the no. of psecial characters
+                count = 0
+
                 # Checking whether password consists of letter and digits
-                if password.isalnum() == True:
+                if password.isalnum() == False:
                     if password.isalpha() == False and password.isdigit() == False:
-                        print("\tValid username and password")
-                        print("\tYou'll be taken further")
-                        input("\tPress Enter to continue")
-                        break
+
+                        # Checking whether password consists of special characters:
+                        for i in password:
+                            if i in spec_ch:
+                                count += 1
+                                if i == password[len(password) - 1]:
+                                    break
+                                else:
+                                    continue
+                            else:
+                                continue
+
+                        # Checking if special characters did exist or not
+                        if count > 0:
+                            print("\tValid username and password")
+                            print("\tYou'll be taken further")
+                            input("\tPress Enter to continue")
+                            break
+                        else:
+                            print("\tPassword doesn't consist of any special characters.")
+                            print("\tPlease add a special character")
+                            continue
 
                     elif password.isalpha() == False and password.isdigit() == True:
                         print("\tPassword doesn't consist of letters")
@@ -303,12 +368,30 @@ def signup():
                     continue
 
                 else:
+                    print("Enter a valid number")
                     continue
 
             clss = int(input("\n\tClass (Numbers only): "))
             sec = input("\tSection (Capital letters only): ")
             role = 'Student'
-            email = input("\tEmail: ")
+
+            # Taking Email as input
+            while True:
+                print("\tCurrently accepting only emails with the following domains:")
+                print("\t1. @gmail.com")
+                print("\t2. @hotmail.com")
+                print("\t3. @yahoo.com")
+                email = input("\tEmail: ")
+
+                # Checking whether email entered consists of a valid domain or not
+                if (email.endswith("@gmail.com") or
+                        email.endswith("@hotmail.com") or
+                        email.endswith("@yahoo.com")):
+                    print("\tValid Email")
+                    break
+                else:
+                    print("\tInvalid Email")
+                    continue
 
             # Appending new values entered to the lists
             username_std.append(username)
@@ -326,7 +409,7 @@ def signup():
                                                    'SEC', 'ROLE', 'EMAIL'])
 
             # Transferring updated df to Excel sheet = 'Students'
-            with pd.ExcelWriter(root, engine='openpyxl', if_sheet_exists='replace', mode='a') as writer:
+            with pd.ExcelWriter(root, engine='openpyxl', if_sheet_exists='overlay', mode='a') as writer:
                 user_info_std.to_excel(writer, sheet_name='Students')
 
             print("\n\n\n\tThank you for signing up")
@@ -342,22 +425,24 @@ def signup():
 print("---------Welcome to Event Management System---------")
 
 while True:
-    print("\t1. Login\n\t2. Signup")
-    user_inp_1 = int(input("\tChoose (Enter number): "))
-    
+    print("\t1. Login\n\t2. Signup\n\t3. Guest")
+    user_inp_1 = input("\tChoose (Enter number): ")
+
     # Assigning path of file to a variable
-    # Users can change this path depending on where the excel file has been stored
     root = r'C:\Users\97150\OneDrive\Desktop\Accounts_Info.xlsx'
-    
+
     # Obtaining Excel file containing Usernames and passwords
     userpass = pd.ExcelFile(root)
     user_info = []
 
-    if user_inp_1 == 1:
+    if user_inp_1 == '1':
         login()
         break
 
-    elif user_inp_1 == 2:
+    elif user_inp_1 == '2':
         signup()
+
+    elif user_inp_1 == '3':
+        print
 
 del userpass
