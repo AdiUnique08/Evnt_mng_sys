@@ -1,8 +1,9 @@
 # Login/Signup for app
 # Introduction/Welcoming
 
-# Importing Pandas
+# Importing Pandas and time
 import pandas as pd
+import time
 
 
 def login():
@@ -10,6 +11,7 @@ def login():
         print("\n\n\n\tLogin as:\n\t1. Admin\n\t2. Student")
         user_inp_2 = input("\tChoose (Enter number): ")
 
+        time.sleep(2)
         if user_inp_2 == '1':  # Login as admin
             # Assigning Userpass_Adm Sheet to New var
             userpass_adm_xl = pd.read_excel(userpass, 'Admins')
@@ -28,8 +30,10 @@ def login():
                 password = input("\tPassword: ")
 
                 # Executes if proper credentials were entered.
+                time.sleep(2)
                 if username in userpass_adm and password == userpass_adm[username][0]:
                     print("\tThank you")
+                    time.sleep(2)
                     print("\tYou will shortly be taken to the main page")
                     user_info = [username]
                     for i in userpass_adm[username]:
@@ -48,8 +52,11 @@ def login():
                 if i == 5:
                     print("\tYou've entered the wrong credentials 5 times")
                     print("\tPlease wait for 30 seconds")
+                    time.sleep(30)
                     break
             break
+
+#-----------------------------------------------------------------------------------------------------------------------
 
         elif user_inp_2 == '2':  # Login as student
             # Assigning Userpass_Std Sheet to New var
@@ -69,8 +76,10 @@ def login():
                 password = input("\tPassword: ")
 
                 # Executes if proper credentials were entered.
+                time.sleep(2)
                 if username in userpass_std and password == userpass_std[username][0]:
                     print("\tThank you")
+                    time.sleep(2)
                     print("\tYou will be shortly taken to the main page")
                     user_info = [username]
                     for i in userpass_std[username]:
@@ -89,8 +98,11 @@ def login():
                 if i == 5:
                     print("\tYou've entered the wrong credentials 5 times")
                     print("\tPlease wait for 30 seconds")
+                    time.sleep(30)
                     break
             break
+
+#-----------------------------------------------------------------------------------------------------------------------
 
         # Executes when invalid number has been entered
         elif user_inp_2 != '1' or user_inp_2 != '2':
@@ -104,6 +116,7 @@ def signup():
         user_inp_2 = input("\tChoose (Enter number): ")
 
         # Signup as admin
+        time.sleep(2)
         if user_inp_2 == '1':
             # Assigning Userpass_Adm Sheet to New var
             userpass_adm_xl = pd.read_excel(userpass, 'Admins')
@@ -132,103 +145,122 @@ def signup():
                 break
 
             # Loop to ensure Valid password is entered
-            # Loop to endure any error in password can be corrected without proceeding further
             while True:
+                print("\tPassword must consist of the following:")
+                print("\t1. 8-20 Characters long")
+                print("\t2. Consist of letters A-Z and a-z")
+                print("\t3. Consist of digits 0-9")
+                print("\t4. Consist of any special characters")
                 password = input("\tPassword: ")
 
-                # Parameter to count the no. of psecial characters
+                # Parameter to count the no. of special characters
                 count = 0
 
-                # Checking whether password consists of letter and digits
-                if password.isalnum() == False:
-                    if password.isalpha() == False and password.isdigit() == False:
+                # Checks if password consists of the minimum characters
+                if (len(password) >= 8) and (len(password) <= 20):
 
-                        # Checking whether password consists of special characters:
-                        for i in password:
-                            if i in spec_ch:
-                                count += 1
-                                if i == password[len(password) - 1]:
-                                    break
+                    # Checking whether password consists of letter and digits
+                    if password.isalnum() is False:
+                        if (password.isalpha() is False) and (password.isdigit() is False):
+
+                            # Checking whether password consists of special characters:
+                            for i in password:
+                                if i in spec_ch:
+                                    count += 1
+                                    if i == password[len(password) - 1]:
+                                        break
+                                    else:
+                                        continue
                                 else:
                                     continue
+
+                            # Setting timer of 2 seconds before the checking starts
+                            time.sleep(2)
+
+                            # Checking if special characters did exist or not
+                            if count > 0:
+                                print("\tValid username and password")
+                                print("\tYou'll be taken further")
+                                input("\tPress Enter to continue")
+                                break
                             else:
+                                print("\tPassword doesn't consist of any special characters.")
+                                print("\tPlease add a special character")
                                 continue
 
-                        # Checking if special characters did exist or not
-                        if count > 0:
-                            print("\tValid username and password")
-                            print("\tYou'll be taken further")
-                            input("\tPress Enter to continue")
-                            break
-                        else:
-                            print("\tPassword doesn't consist of any special characters.")
-                            print("\tPlease add a special character")
+                        elif (password.isalpha() is False) and (password.isdigit() is True):
+                            print("\tPassword doesn't consist of letters")
+                            print("\tPlease add letter a-z or A-Z")
                             continue
 
-                    elif password.isalpha() == False and password.isdigit() == True:
-                        print("\tPassword doesn't consist of letters")
-                        print("\tPlease add letter a-z or A-Z")
-                        continue
-
-                    elif password.isalpha() == True and password.isdigit() == False:
-                        print("\tPassword doesn't consist of numbers")
-                        print("\tPlease add numbers from 0-9")
-                        continue
+                        elif (password.isalpha() is True) and (password.isdigit() is False):
+                            print("\tPassword doesn't consist of numbers")
+                            print("\tPlease add numbers from 0-9")
+                            continue
+                else:
+                    print("Password must consist of 8-20 characters")
+                    continue
 
             # Taking Inputs as first name and last name and individually holding checks
             while True:
+                time.sleep(2)
                 f_name = input("\n\n\tFirst Name: ")
                 l_name = input("\tLast Name: ")
 
                 # Ensuring user has entered or typed their names correctly
+                time.sleep(1)
                 print("\n\t1. Proceed (No error)\n\t2. Repeat (Error)")
-                user_inp_4 = input("\tChoose (Enter number): ")
+                user_inp_3 = input("\tChoose (Enter number): ")
 
                 # Executes if user has no errors in their name
-                if user_inp_4 == '1':
+                time.sleep(2)
+                if user_inp_3 == '1':
 
                     # Checking first name
-                    if f_name.isalpha() == True:
-                        if f_name[0].isupper() == True:
+                    if f_name.isalpha() is True:
+                        if f_name[0].isupper() is True:
                             name = f_name + ' '
                         else:
                             name = f_name.capitalize() + ' '
 
                     # Checking last name
-                    if l_name.isalpha() == True:
-                        if l_name[0].isupper() == True:
+                    if l_name.isalpha() is True:
+                        if l_name[0].isupper() is True:
                             name += l_name
                         else:
                             name += l_name.capitalize()
                     break
 
                 # Executes if the user has incorrectly entered their names
-                elif user_inp_4 == '2':
+                elif user_inp_3 == '2':
                     continue
 
                 else:
                     print("Enter a valid number")
                     continue
 
+            time.sleep(2)
             print("\n\t1. Teaching\n\t2. Non-Teaching")
-            user_inp_3 = int(input("\tChoose (Enter number): "))
+            user_inp_4 = input("\tChoose (Enter number): ")
 
-            if user_inp_3 == '1':
+            time.sleep(1)
+            if user_inp_4 == '1':
                 t_nt = 'Teaching'
                 role = 'Admin'
                 post = input("\tPost: ")
 
-            elif user_inp_3 == '2':
+            elif user_inp_4 == '2':
                 t_nt = 'Non_Teaching'
                 role = 'Admin'
                 post = input("\tPost: ")
 
-            elif user_inp_3 != '1' or user_inp_3 != '2':
+            elif user_inp_4 != '1' or user_inp_4 != '2':
                 print("Enter your info again")
                 continue
 
             # Taking Email as input
             while True:
+                time.sleep(1)
                 print("\tCurrently accepting only emails with the following domains:")
                 print("\t1. @gmail.com")
                 print("\t2. @hotmail.com")
@@ -264,9 +296,13 @@ def signup():
             with pd.ExcelWriter(root, engine='openpyxl', if_sheet_exists='overlay', mode='a') as writer:
                 user_info_adm.to_excel(writer, sheet_name='Admins')
 
+            time.sleep(1)
             print("\n\n\n\tThank you for signing up")
+            time.sleep(3)
             print("\tYou will be taken to the login page\n\n\n")
             break
+
+#-----------------------------------------------------------------------------------------------------------------------
 
         # Signup as Student
         elif user_inp_2 == '2':
@@ -295,87 +331,106 @@ def signup():
 
             # Loop to ensure Valid password is entered
             while True:
+                print("Password must consist of the following:")
+                print("1. 8-20 Characters long")
+                print("2. Consist of letters A-Z and a-z")
+                print("3. Consist of digits 0-9")
+                print("4. Consist of any special characters")
                 password = input("\tPassword: ")
 
-                # Parameter to count the no. of psecial characters
+                # Parameter to count the no. of special characters
                 count = 0
 
-                # Checking whether password consists of letter and digits
-                if password.isalnum() == False:
-                    if password.isalpha() == False and password.isdigit() == False:
+                # Checks if password consists of the minimum characters
+                if (len(password) >= 8) and (len(password) <= 20):
 
-                        # Checking whether password consists of special characters:
-                        for i in password:
-                            if i in spec_ch:
-                                count += 1
-                                if i == password[len(password) - 1]:
-                                    break
+                    # Checking whether password consists of letter and digits
+                    if password.isalnum() is False:
+                        if (password.isalpha() is False) and (password.isdigit() is False):
+
+                            # Checking whether password consists of special characters:
+                            for i in password:
+                                if i in spec_ch:
+                                    count += 1
+                                    if i == password[len(password) - 1]:
+                                        break
+                                    else:
+                                        continue
                                 else:
                                     continue
+
+                            # Setting timer of 2 seconds before the checking starts
+                            time.sleep(2)
+
+                            # Checking if special characters did exist or not
+                            if count > 0:
+                                print("\tValid username and password")
+                                print("\tYou'll be taken further")
+                                input("\tPress Enter to continue")
+                                break
                             else:
+                                print("\tPassword doesn't consist of any special characters.")
+                                print("\tPlease add a special character")
                                 continue
 
-                        # Checking if special characters did exist or not
-                        if count > 0:
-                            print("\tValid username and password")
-                            print("\tYou'll be taken further")
-                            input("\tPress Enter to continue")
-                            break
-                        else:
-                            print("\tPassword doesn't consist of any special characters.")
-                            print("\tPlease add a special character")
+                        elif (password.isalpha() is False) and (password.isdigit() is True):
+                            print("\tPassword doesn't consist of letters")
+                            print("\tPlease add letter a-z or A-Z")
                             continue
 
-                    elif password.isalpha() == False and password.isdigit() == True:
-                        print("\tPassword doesn't consist of letters")
-                        print("\tPlease add letter a-z or A-Z")
-                        continue
-
-                    elif password.isalpha() == True and password.isdigit() == False:
-                        print("\tPassword doesn't consist of numbers")
-                        print("\tPlease add numbers from 0-9")
-                        continue
+                        elif (password.isalpha() is True) and (password.isdigit() is False):
+                            print("\tPassword doesn't consist of numbers")
+                            print("\tPlease add numbers from 0-9")
+                            continue
+                else:
+                    print("Password must consist of 8-20 characters")
+                    continue
 
             # Taking Inputs as first name and last name and individually holding checks
             while True:
+                time.sleep(2)
                 f_name = input("\n\n\tFirst Name: ")
                 l_name = input("\tLast Name: ")
 
                 # Ensuring user has entered or typed their names correctly
+                time.sleep(1)
                 print("\n\t1. Proceed (No error)\n\t2. Repeat (Error)")
-                user_inp_4 = input("\tChoose (Enter number): ")
+                user_inp_3 = input("\tChoose (Enter number): ")
 
                 # Executes if user has no errors in their name
-                if user_inp_4 == '1':
+                time.sleep(2)
+                if user_inp_3 == '1':
 
                     # Checking first name
-                    if f_name.isalpha() == True:
-                        if f_name[0].isupper() == True:
+                    if f_name.isalpha() is True:
+                        if f_name[0].isupper() is True:
                             name = f_name + ' '
                         else:
                             name = f_name.capitalize() + ' '
 
                     # Checking last name
-                    if l_name.isalpha() == True:
-                        if l_name[0].isupper() == True:
+                    if l_name.isalpha() is True:
+                        if l_name[0].isupper() is True:
                             name += l_name
                         else:
                             name += l_name.capitalize()
                     break
 
                 # Executes if the user has incorrectly entered their names
-                elif user_inp_4 == '2':
+                elif user_inp_3 == '2':
                     continue
 
                 else:
                     print("Enter a valid number")
                     continue
 
+            time.sleep(2)
             clss = int(input("\n\tClass (Numbers only): "))
             sec = input("\tSection (Capital letters only): ")
             role = 'Student'
 
             # Taking Email as input
+            time.sleep(1)
             while True:
                 print("\tCurrently accepting only emails with the following domains:")
                 print("\t1. @gmail.com")
@@ -404,17 +459,21 @@ def signup():
 
             # Creating Dataframe of the appended lists
             user_info_std = pd.DataFrame(list(zip(username_std, password_std, name_std,
-                                                   clss_std, sec_std, role_std, email_std)),
-                                          columns=['USERNAMES', 'PASSWORDS', 'NAME', 'CLASS',
-                                                   'SEC', 'ROLE', 'EMAIL'])
+                                                  clss_std, sec_std, role_std, email_std)),
+                                         columns=['USERNAMES', 'PASSWORDS', 'NAME', 'CLASS',
+                                                  'SEC', 'ROLE', 'EMAIL'])
 
             # Transferring updated df to Excel sheet = 'Students'
             with pd.ExcelWriter(root, engine='openpyxl', if_sheet_exists='overlay', mode='a') as writer:
                 user_info_std.to_excel(writer, sheet_name='Students')
 
+            time.sleep(1)
             print("\n\n\n\tThank you for signing up")
+            time.sleep(3)
             print("\tYou will be taken to the login page\n\n\n")
             break
+
+#-----------------------------------------------------------------------------------------------------------------------
 
         elif user_inp_2 != '1' or user_inp_2 != '2':
             print("\tEnter a Valid Number")
@@ -425,11 +484,11 @@ def signup():
 print("---------Welcome to Event Management System---------")
 
 while True:
-    print("\t1. Login\n\t2. Signup\n\t3. Guest")
+    print("\t1. Login\n\t2. Signup")
     user_inp_1 = input("\tChoose (Enter number): ")
 
     # Assigning path of file to a variable
-    root = r'C:\Users\97150\OneDrive\Desktop\Accounts_Info.xlsx'
+    root = r"C:\Users\97150\PycharmProjects\Event_Mng_Sys\Account_Signin.xlsx"
 
     # Obtaining Excel file containing Usernames and passwords
     userpass = pd.ExcelFile(root)
@@ -442,7 +501,8 @@ while True:
     elif user_inp_1 == '2':
         signup()
 
-    elif user_inp_1 == '3':
-        print
+    else:
+        print("Enter a Valid Option: ")
+        continue
 
 del userpass
