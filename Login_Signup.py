@@ -11,8 +11,9 @@ def login():
         print("\n\n\n\tLogin as:\n\t1. Admin\n\t2. Student")
         user_inp_2 = input("\tChoose (Enter number): ")
 
+        # Login as admin
         time.sleep(2)
-        if user_inp_2 == '1':  # Login as admin
+        if user_inp_2 == '1':
             # Assigning Userpass_Adm Sheet to New var
             userpass_adm_xl = pd.read_excel(userpass, 'Admins')
 
@@ -24,37 +25,65 @@ def login():
 
             # Variable to control the no. of times user can keep entering wrong password
             i = 0
+            j = 0
 
             while i < 5:  # Initiating loop for logging in
                 username = input("\n\n\n\tUsername: ")
                 password = input("\tPassword: ")
+                user_inp_3 = input("\tConfirm to proceed (Y/N): ")
 
-                # Executes if proper credentials were entered.
-                time.sleep(2)
-                if username in userpass_adm and password == userpass_adm[username][0]:
-                    print("\tThank you")
+                if (user_inp_3.upper() == 'Y') or (user_inp_3.capitalize() == 'Yes'):
+
+                    # Executes if proper credentials were entered.
                     time.sleep(2)
-                    print("\tYou will shortly be taken to the main page")
-                    user_info = [username]
-                    for i in userpass_adm[username]:
-                        user_info.append(i)
-                    break
+                    if username in userpass_adm:
+                        if password == userpass_adm[username][0]:
+                            print("\tThank you")
+                            time.sleep(2)
+                            print("\tYou will shortly be taken to the main page")
+                            user_info = [username]
+                            for i in userpass_adm[username]:
+                                user_info.append(i)
+                            break
 
-                elif username in userpass_adm and password != userpass_adm[username][0]:
-                    print("\tInvalid password\n\tPlease enter again")
-                    i += 1
+                        elif password != userpass_adm[username][0]:
+                            print("\tInvalid username or password\n\tPlease enter again")
+                            i += 1
 
-                elif username not in userpass_adm:
-                    print("\tUsername is not found in Admin")
-                    print("\tDo you want to login as a Student or Signup?\n\tYou'll be taken to the login page")
-                    break
+                    elif username not in userpass_adm:
+                        if j < 3:
+                            time.sleep(1)
+                            print("\tInvalid username entered")
+                            print("\tPlease enter again")
+                            j += 1
+                            continue
+                        else:
+                            time.sleep(1)
+                            print("\tUsername not found in Admin")
+                            print("\tYou will be taken to the Login/Signup page")
+                            j = 0
+                            break
 
-                if i == 5:
-                    print("\tYou've entered the wrong credentials 5 times")
-                    print("\tPlease wait for 30 seconds")
-                    time.sleep(30)
+                    if i == 5:
+                        time.sleep(1)
+                        print("\tYou've entered the wrong credentials 5 times")
+                        print("\tPlease wait for 30 seconds")
+                        time.sleep(30)
+                        i = 0
+                        continue
+
+                elif (user_inp_3.upper() == 'N') or (user_inp_3.capitalize() == 'No'):
+                    continue
+
+                else:
+                    time.sleep(1)
+                    print("\tEnter a valid option")
+                    print("\tEnter your info. again")
+                    continue
+
+                # Breaking from loop if successfully passed the checking
+                if (username == user_info[0]) and (password == user_info[1]):
                     break
-            break
 
 #-----------------------------------------------------------------------------------------------------------------------
 
@@ -70,37 +99,66 @@ def login():
 
             # Variable to control the no. of times user can keep entering wrong password
             i = 0
+            j = 0
 
             while i < 5:  # Initiating loop for logging in
                 username = input("\n\n\n\tUsername: ")
                 password = input("\tPassword: ")
+                user_inp_3 = input("\tConfirm to proceed (Y/N): ")
 
-                # Executes if proper credentials were entered.
-                time.sleep(2)
-                if username in userpass_std and password == userpass_std[username][0]:
-                    print("\tThank you")
+                if (user_inp_3.upper() == 'Y') or (user_inp_3.capitalize() == 'Yes'):
+
+                    # Executes if proper credentials were entered.
                     time.sleep(2)
-                    print("\tYou will be shortly taken to the main page")
-                    user_info = [username]
-                    for i in userpass_std[username]:
-                        user_info.append(i)
+                    if username in userpass_std:
+                        if password == userpass_std[username][0]:
+                            print("\tThank you")
+                            time.sleep(2)
+                            print("\tYou will shortly be taken to the main page")
+                            user_info = [username]
+                            for i in userpass_std[username]:
+                                user_info.append(i)
+                            break
+
+                        elif password != userpass_std[username][0]:
+                            print("\tInvalid username or password\n\tPlease enter again")
+                            i += 1
+
+                    elif username not in userpass_std:
+                        if j < 3:
+                            time.sleep(1)
+                            print("\tInvalid username entered")
+                            print("\tPlease enter again")
+                            j += 1
+                            continue
+                        else:
+                            time.sleep(1)
+                            print("\tUsername not found in Student")
+                            print("\tYou will be taken to the Login/Signup page")
+                            j = 0
+                            break
+
+                    if i == 5:
+                        time.sleep(1)
+                        print("\tYou've entered the wrong credentials 5 times")
+                        print("\tPlease wait for 30 seconds")
+                        time.sleep(30)
+                        i = 0
+                        continue
+
+                elif (user_inp_3.upper() == 'N') or (user_inp_3.capitalize() == 'No'):
+                    continue
+
+                else:
+                    time.sleep(1)
+                    print("\tEnter a valid option")
+                    print("\tEnter your info. again")
+                    continue
+
+                # Breaking from loop if successfully passed the checking
+                if (username == user_info[0]) and (password == user_info[1]):
                     break
 
-                elif username in userpass_std and password != userpass_std[username][0]:
-                    print("\tInvalid password\n\tPlease enter again")
-                    i += 1
-
-                elif username not in userpass_std:
-                    print("\tUsername is not found in Students")
-                    print("\tDo you want to login as an Admin?\n\tYou'll be taken to the login page")
-                    break
-
-                if i == 5:
-                    print("\tYou've entered the wrong credentials 5 times")
-                    print("\tPlease wait for 30 seconds")
-                    time.sleep(30)
-                    break
-            break
 
 #-----------------------------------------------------------------------------------------------------------------------
 
@@ -198,7 +256,7 @@ def signup():
                             print("\tPlease add numbers from 0-9")
                             continue
                 else:
-                    print("Password must consist of 8-20 characters")
+                    print("\tPassword must consist of 8-20 characters")
                     continue
 
             # Taking Inputs as first name and last name and individually holding checks
@@ -298,8 +356,9 @@ def signup():
 
             time.sleep(1)
             print("\n\n\n\tThank you for signing up")
-            time.sleep(3)
+            time.sleep(2)
             print("\tYou will be taken to the login page\n\n\n")
+            time.sleep(2)
             break
 
 #-----------------------------------------------------------------------------------------------------------------------
@@ -318,8 +377,11 @@ def signup():
             role_std = list(userpass_std_xl.ROLE)
             email_std = list(userpass_std_xl.EMAIL)
 
+            # List of special characters to ensure password consists of them
+            spec_ch = ['!', '@', '#', '$', '%', '^', '&', '*', '(', ')', '-', '_', '+', '=',
+                       '[', ']', '{', '}', ';', ':', '<', '>', '/', '\\', '|', ' ']
+
             # Taking Information related to user
-            # Loop to endure any error in password can be corrected without proceeding further
             username = input("\n\n\n\tUsername: ")
 
             # Checking if username already exists in userpass_std
@@ -332,10 +394,10 @@ def signup():
             # Loop to ensure Valid password is entered
             while True:
                 print("Password must consist of the following:")
-                print("1. 8-20 Characters long")
-                print("2. Consist of letters A-Z and a-z")
-                print("3. Consist of digits 0-9")
-                print("4. Consist of any special characters")
+                print("\t1. 8-20 Characters long")
+                print("\t2. Consist of letters A-Z and a-z")
+                print("\t3. Consist of digits 0-9")
+                print("\t4. Consist of any special characters")
                 password = input("\tPassword: ")
 
                 # Parameter to count the no. of special characters
@@ -383,7 +445,7 @@ def signup():
                             print("\tPlease add numbers from 0-9")
                             continue
                 else:
-                    print("Password must consist of 8-20 characters")
+                    print("\tPassword must consist of 8-20 characters")
                     continue
 
             # Taking Inputs as first name and last name and individually holding checks
@@ -469,8 +531,9 @@ def signup():
 
             time.sleep(1)
             print("\n\n\n\tThank you for signing up")
-            time.sleep(3)
+            time.sleep(2)
             print("\tYou will be taken to the login page\n\n\n")
+            time.sleep(2)
             break
 
 #-----------------------------------------------------------------------------------------------------------------------
