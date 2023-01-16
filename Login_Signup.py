@@ -5,22 +5,27 @@
 import pandas as pd
 import time
 
+global user_info
+
 
 def login():
     while True:
-        print("\n\n\n\tLogin as:\n\t1. Admin\n\t2. Student")
+        print("\n\n\n---------LOGIN---------")
+        print("\n\tLogin as:\n\t1. Admin\n\t2. Student")
         user_inp_2 = input("\tChoose (Enter number): ")
 
         # Login as admin
         time.sleep(2)
         if user_inp_2 == '1':
+            print("\n\n\n---------LOGIN(ADMIN)---------")
+
             # Assigning Userpass_Adm Sheet to New var
             userpass_adm_xl = pd.read_excel(userpass, 'Admins')
 
             # Username:User_infos as key:value pair
             user_infos = list(zip(userpass_adm_xl.PASSWORDS, userpass_adm_xl.NAME,
-                                  userpass_adm_xl.T_NT, userpass_adm_xl.ROLE, userpass_adm_xl.POST,
-                                  userpass_adm_xl.EMAIL))
+                                  userpass_adm_xl.T_NT, userpass_adm_xl.POST,
+                                  userpass_adm_xl.EMAIL, userpass_adm_xl.ROLE))
             userpass_adm = dict(zip(userpass_adm_xl.USERNAMES, user_infos))
 
             # Variable to control the no. of times user can keep entering wrong password
@@ -28,7 +33,7 @@ def login():
             j = 0
 
             while i < 5:  # Initiating loop for logging in
-                username = input("\n\n\n\tUsername: ")
+                username = input("\n\tUsername: ")
                 password = input("\tPassword: ")
                 user_inp_3 = input("\tConfirm to proceed (Y/N): ")
 
@@ -49,6 +54,7 @@ def login():
                         elif password != userpass_adm[username][0]:
                             print("\tInvalid username or password\n\tPlease enter again")
                             i += 1
+                            continue
 
                     elif username not in userpass_adm:
                         if j < 3:
@@ -77,24 +83,26 @@ def login():
 
                 else:
                     time.sleep(1)
-                    print("\tEnter a valid option")
-                    print("\tEnter your info. again")
+                    print("\tInvalid option")
+                    print("\tRe-enter your info. again")
                     continue
 
-                # Breaking from loop if successfully passed the checking
-                if (username == user_info[0]) and (password == user_info[1]):
-                    break
+            # Breaking from loop if successfully passed the checking
+            if (username == user_info[0]) and (password == user_info[1]):
+                break
 
         # -----------------------------------------------------------------------------------------------------------------------
 
         elif user_inp_2 == '2':  # Login as student
+            print("\n\n\n---------LOGIN(STUDENT)---------")
+
             # Assigning Userpass_Std Sheet to New var
             userpass_std_xl = pd.read_excel(userpass, 'Students')
 
             # Usernames : Password as key value pair
             user_infos = list(zip(userpass_std_xl.PASSWORDS, userpass_std_xl.NAME,
-                                  userpass_std_xl.CLASS, userpass_std_xl.SEC, userpass_std_xl.ROLE,
-                                  userpass_std_xl.EMAIL))
+                                  userpass_std_xl.CLASS, userpass_std_xl.SEC,
+                                  userpass_std_xl.EMAIL, userpass_std_xl.ROLE))
             userpass_std = dict(zip(userpass_std_xl.USERNAMES, user_infos))
 
             # Variable to control the no. of times user can keep entering wrong password
@@ -102,7 +110,7 @@ def login():
             j = 0
 
             while i < 5:  # Initiating loop for logging in
-                username = input("\n\n\n\tUsername: ")
+                username = input("\n\tUsername: ")
                 password = input("\tPassword: ")
                 user_inp_3 = input("\tConfirm to proceed (Y/N): ")
 
@@ -123,6 +131,7 @@ def login():
                         elif password != userpass_std[username][0]:
                             print("\tInvalid username or password\n\tPlease enter again")
                             i += 1
+                            continue
 
                     elif username not in userpass_std:
                         if j < 3:
@@ -151,13 +160,13 @@ def login():
 
                 else:
                     time.sleep(1)
-                    print("\tEnter a valid option")
-                    print("\tEnter your info. again")
+                    print("\tInvalid option")
+                    print("\tRe-enter your info. again")
                     continue
 
-                # Breaking from loop if successfully passed the checking
-                if (username == user_info[0]) and (password == user_info[1]):
-                    break
+            # Breaking from loop if successfully passed the checking
+            if (username == user_info[0]) and (password == user_info[1]):
+                break
 
         # -----------------------------------------------------------------------------------------------------------------------
 
@@ -169,12 +178,15 @@ def login():
 
 def signup():
     while True:
-        print("\n\n\n\tSignup as:\n\t1. Admin\n\t2. Student")
+        print("\n\n\n---------SIGNUP---------")
+        print("\n\tSignup as:\n\t1. Admin\n\t2. Student")
         user_inp_2 = input("\tChoose (Enter number): ")
 
         # Signup as admin
         time.sleep(2)
         if user_inp_2 == '1':
+            print("\n\n\n---------SIGNUP(ADMIN)---------")
+
             # Assigning Userpass_Adm Sheet to New var
             userpass_adm_xl = pd.read_excel(userpass, 'Admins')
 
@@ -192,14 +204,23 @@ def signup():
                        '[', ']', '{', '}', ';', ':', '<', '>', '/', '\\', '|', ' ']
 
             # Taking Information related to user
-            username = input("\n\n\n\tUsername: ")
+            username = input("\n\tUsername: ")
 
             # Checking if username already exists in userpass_std
             if username in username_adm:
                 print("\tUsername already exists")
-                print("\tYou'll be taken to the Login page")
-                input("\tPress Enter to continue")
-                break
+                print("\t1. Are you an existing user:")
+                print("\t1. Yes\n\t2. No")
+                user_inp_3 = input("Choose (Enter number only): ")
+
+                if user_inp_3 == '1':
+                    print("\tYou'll be taken to the Login page")
+                    input("\tPress Enter to continue")
+                    break
+                elif user_inp_3 == '2':
+                    print("\tPlease use another username")
+                    print("\tYou'll be taken to the Signin page")
+                    continue
 
             # Loop to ensure Valid password is entered
             while True:
@@ -261,17 +282,18 @@ def signup():
             # Taking Inputs as first name and last name and individually holding checks
             while True:
                 time.sleep(2)
-                f_name = input("\n\n\tFirst Name: ")
+                print("\n\n\n---------PERSONAL INFORMATION---------")
+                f_name = input("\n\tFirst Name: ")
                 l_name = input("\tLast Name: ")
 
                 # Ensuring user has entered or typed their names correctly
                 time.sleep(1)
                 print("\n\t1. Proceed (No error)\n\t2. Repeat (Error)")
-                user_inp_3 = input("\tChoose (Enter number): ")
+                user_inp_4 = input("\tChoose (Enter number): ")
 
                 # Executes if user has no errors in their name
                 time.sleep(2)
-                if user_inp_3 == '1':
+                if user_inp_4 == '1':
 
                     # Checking first name
                     if f_name.isalpha() is True:
@@ -289,36 +311,37 @@ def signup():
                     break
 
                 # Executes if the user has incorrectly entered their names
-                elif user_inp_3 == '2':
+                elif user_inp_4 == '2':
                     continue
 
                 else:
-                    print("Enter a valid number")
+                    print("\tInvalid number entered")
+                    print("\tPLease renter your personal information")
                     continue
 
             time.sleep(2)
             print("\n\t1. Teaching\n\t2. Non-Teaching")
-            user_inp_4 = input("\tChoose (Enter number): ")
+            user_inp_5 = input("\tChoose (Enter number): ")
 
             time.sleep(1)
-            if user_inp_4 == '1':
+            if user_inp_5 == '1':
                 t_nt = 'Teaching'
                 role = 'Admin'
                 post = input("\tPost: ")
 
-            elif user_inp_4 == '2':
+            elif user_inp_5 == '2':
                 t_nt = 'Non_Teaching'
                 role = 'Admin'
                 post = input("\tPost: ")
 
-            elif user_inp_4 != '1' or user_inp_4 != '2':
-                print("Enter your info again")
+            elif user_inp_5 != '1' or user_inp_5 != '2':
+                print("\tEnter your info again")
                 continue
 
             # Taking Email as input
             while True:
                 time.sleep(1)
-                print("\tCurrently accepting only emails with the following domains:")
+                print("\n\tCurrently accepting only emails with the following domains:")
                 print("\t1. @gmail.com")
                 print("\t2. @hotmail.com")
                 print("\t3. @yahoo.com")
@@ -329,6 +352,7 @@ def signup():
                         email.endswith("@hotmail.com") or
                         email.endswith("@yahoo.com")):
                     print("\tValid Email")
+                    print()
                     break
                 else:
                     print("\tInvalid Email")
@@ -356,7 +380,7 @@ def signup():
             time.sleep(1)
             print("\n\n\n\tThank you for signing up")
             time.sleep(2)
-            print("\tYou will be taken to the login page\n\n\n")
+            print("\n\tYou will be taken to the login page")
             time.sleep(2)
             break
 
@@ -386,9 +410,18 @@ def signup():
             # Checking if username already exists in userpass_std
             if username in username_std:
                 print("\tUsername already exists")
-                print("\tYou'll be taken to the Login page")
-                input("\tPress Enter to continue")
-                break
+                print("\t1. Are you an existing user:")
+                print("\t1. Yes\n\t2. No")
+                user_inp_3 = input("Choose (Enter number only): ")
+
+                if user_inp_3 == '1':
+                    print("\tYou'll be taken to the Login page")
+                    input("\tPress Enter to continue")
+                    break
+                elif user_inp_3 == '2':
+                    print("\tPlease use another username")
+                    print("\tYou'll be taken to the Signin page")
+                    continue
 
             # Loop to ensure Valid password is entered
             while True:
@@ -450,17 +483,18 @@ def signup():
             # Taking Inputs as first name and last name and individually holding checks
             while True:
                 time.sleep(2)
-                f_name = input("\n\n\tFirst Name: ")
+                print("\n\n\n---------PERSONAL INFORMATION---------")
+                f_name = input("\n\tFirst Name: ")
                 l_name = input("\tLast Name: ")
 
                 # Ensuring user has entered or typed their names correctly
                 time.sleep(1)
                 print("\n\t1. Proceed (No error)\n\t2. Repeat (Error)")
-                user_inp_3 = input("\tChoose (Enter number): ")
+                user_inp_4 = input("\tChoose (Enter number): ")
 
                 # Executes if user has no errors in their name
                 time.sleep(2)
-                if user_inp_3 == '1':
+                if user_inp_4 == '1':
 
                     # Checking first name
                     if f_name.isalpha() is True:
@@ -478,7 +512,7 @@ def signup():
                     break
 
                 # Executes if the user has incorrectly entered their names
-                elif user_inp_3 == '2':
+                elif user_inp_4 == '2':
                     continue
 
                 else:
@@ -503,7 +537,15 @@ def signup():
                 if (email.endswith("@gmail.com") or
                         email.endswith("@hotmail.com") or
                         email.endswith("@yahoo.com")):
-                    print("\tValid Email")
+                    #print("\tA 6-Code OTP has been sent to your e-mail")
+                    #otp = int(input("Enter the OTP: "))
+                    #if otp sent == otp entered:
+                        #print("\tValid OTP entered")
+                    #else:
+                        #print("\tInvalid OTP Entered)
+                        #continue
+                    print("\tValid E-mail")
+                    print("You'll be taken further")
                     break
                 else:
                     print("\tInvalid Email")
@@ -531,7 +573,7 @@ def signup():
             time.sleep(1)
             print("\n\n\n\tThank you for signing up")
             time.sleep(2)
-            print("\tYou will be taken to the login page\n\n\n")
+            print("\n\tYou will be taken to the login page")
             time.sleep(2)
             break
 
@@ -546,6 +588,7 @@ def signup():
 print("---------Welcome to Event Management System---------")
 
 while True:
+    print("---------LOGIN/SIGNUP---------")
     print("\t1. Login\n\t2. Signup")
     user_inp_1 = input("\tChoose (Enter number): ")
 
@@ -558,6 +601,7 @@ while True:
 
     if user_inp_1 == '1':
         login()
+        print(user_info)
         break
 
     elif user_inp_1 == '2':
@@ -566,5 +610,52 @@ while True:
     else:
         print("Enter a Valid Option: ")
         continue
+'''
+while True:
+    if user_info[len(user_info) - 1] == 'Student':
 
-del userpass
+        # Student Interface
+        print("---------HOME---------")
+        print("\n\t1. Events")
+        print("\t2. Post")
+        print("\t3. Settings")
+        user_inp_2 = input("\tChoose (Enter number only): ")
+
+        if user_inp_2 == '1':
+            print("---------EVENTS---------")
+            print("\tAll details regarding ongoing events will be printed")
+
+        elif user_inp_2 == '2':
+            print("---------POST---------")
+            print("\n\t1. Participate in an event")
+            print("\t2. Fill Circulars")
+            user_inp_3 = input("\tChoose (Enter number only): ")
+
+            if user_inp_3 == '1':
+                print("\tDisplay all the ongoing events")
+                print("\t(Possible events to participate in)")
+
+            elif user_inp_3 == '2':
+                print("\tDisplay all the circulars related to ongoing events")
+                # For those events that require a form or circular to be filled
+
+        elif user_inp_2 == '3':
+            print("---------SETTINGS---------")
+            print("\n\t1. Profile")
+            print("\t2. Participation status")
+            print("\t3. Log out")
+            user_inp_3 = input("\tChoose (Enter number only): ")
+
+            if user_inp_3 == '1':
+                print("---------PROFILE---------")
+                print("All details regarding user will be displayed")
+
+            elif user_inp_3 == '2':
+                print("---------PARTICIPATION STATUS---------")
+                print("\tAll participation status will be printed alongside the events")
+                print("\t1. Ongoing\n2. Completed")
+
+            elif user_inp_3 == '3':
+                print("---------LOG OUT---------")
+                print("Logout function will be used")
+'''
