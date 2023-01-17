@@ -608,51 +608,145 @@ while True:
         print("Enter a Valid Option: ")
         continue
 
+# Displaying Interface
 while True:
-    if user_info[len(user_info) - 1] == 'Student':
+    if user_info[len(user_info) - 1] == 'Admin':
 
-        # Student Interface
-        print("\f\t---------HOME---------")
+        # Admin Interface
+        print("\n\n\n\t---------HOME---------")
         print("\n\t1. Events")
         print("\t2. Post")
         print("\t3. Settings")
         user_inp_2 = input("\tChoose (Enter number only): ")
 
+        # Displays Events
         if user_inp_2 == '1':
-            print("---------EVENTS---------")
+            print("\n\n\n---------EVENTS---------")
             print("\tAll details regarding ongoing events will be printed")
 
+        # Displays Post
         elif user_inp_2 == '2':
-            print("---------POST---------")
-            print("\n\t1. Participate in an event")
-            print("\t2. Fill Circulars")
+            print("\n\n\n---------POST---------")
+            print("\n\t1. Announcements")
+            print("\t2. Participation List")
+            print("\t3. Winners")
             user_inp_3 = input("\tChoose (Enter number only): ")
 
+            # Displays Announcements
             if user_inp_3 == '1':
+                print("\n\n\n------------ANNOUNCEMENTS---------")
+                print("\n\tAnnounce the following")
+                print("\t1. New Event")
+                print("\t2. New Notice")
+                print("\t3. Edit Event")
+                print("\t4. Edit Notice")
+                user_inp_4 = input("\tChoose (Enter number only): ")
+
+                # Displays Event Announcement
+                if user_inp_4 == '1':
+                    print("\n\n\n---------EVENT ANNOUNCEMENT---------")
+                    print("\tDisplay the post button of an event")
+                    print("\tAllow them to deploy circulars")
+
+                # Displays Notice Announcement
+                elif user_inp_4 == '2':
+                    print("\n\n\n---------NOTICE ANNOUNCEMENT---------")
+                    print("\tDisplay the post button of a notice")
+
+                # Displays Edit Event
+                elif user_inp_4 == '3':
+                    print("\n\n\n---------EDIT EVENT---------")
+                    print("\tDisplay all the events and let the user choose which one to edit")
+
+                # Displays Edit Notice
+                elif user_inp_4 == '4':
+                    print("\n\n\n---------EDIT NOTICE---------")
+                    print("\tDisplay all the notices and let the user choose which one to edit")
+
+            # Displays Ongoing events and their Participation
+            elif user_inp_3 == '2':
+                print("\n\n\n---------PARTICIPATION---------")
+                print("\tDisplay all the Events Titles")
+                print("\tAllow the user to choose the participation list from that event")
+
+            # Displays Winner Option to announce winner
+            elif user_inp_3 == '3':
+                print("\n\n\n---------WINNERS---------")
+                print("\tLet user choose an event")
+                print("\tLet user announce the winners names and so on")
+
+        # Displays Settings
+        elif user_inp_2 == '3':
+            print("\n\n\n---------SETTINGS---------")
+            print("\n\t1. Profile")
+            print("\t2. Log out")
+            user_inp_3 = input("\tChoose (Enter number only): ")
+
+            # Displays Profile of User
+            if user_inp_3 == '1':
+                print("\n\n\n---------PROFILE---------")
+                print("\tAll details regarding user will be displayed")
+
+            # Displays Logout
+            elif user_inp_3 == '2':
+                print("\n\n\n---------LOG OUT---------")
+                print("\tLogout function will be used")
+                break
+
+    elif user_info[len(user_info) - 1] == 'Student':
+
+        # Student Interface
+        print("\n\n\n\t---------HOME---------")
+        print("\n\t1. Events")
+        print("\t2. Post")
+        print("\t3. Settings")
+        user_inp_2 = input("\tChoose (Enter number only): ")
+
+        # Display Events
+        if user_inp_2 == '1':
+            print("\n\n\n---------EVENTS---------")
+            print("\tAll details regarding ongoing events will be printed")
+
+        # Display Post
+        elif user_inp_2 == '2':
+            print("\n\n\n---------POST---------")
+            print("\n\t1. Event Participation")
+            print("\t2. Circular/Form Fill")
+            user_inp_3 = input("\tChoose (Enter number only): ")
+
+            # Display Event Participation
+            if user_inp_3 == '1':
+                print("\n\n\n---------EVENT PARTICIPATION---------")
                 print("\tDisplay all the ongoing events")
                 print("\t(Possible events to participate in)")
 
+            # Display Circulars/Forms to be filled
             elif user_inp_3 == '2':
+                print("\n\n\n---------CIRCULAR/FORM FILL---------")
                 print("\tDisplay all the circulars related to ongoing events")
-                # For those events that require a form or circular to be filled
 
+        # Display Settings
         elif user_inp_2 == '3':
-            print("---------SETTINGS---------")
+            print("\n\n\n---------SETTINGS---------")
             print("\n\t1. Profile")
             print("\t2. Participation status")
             print("\t3. Log out")
             user_inp_3 = input("\tChoose (Enter number only): ")
 
+            # Display Profile of the user
             if user_inp_3 == '1':
-                print("---------PROFILE---------")
-                print("All details regarding user will be displayed")
+                print("\n\n\n---------PROFILE---------")
+                print("\tAll details regarding user will be displayed")
 
+            # Display Participation Status of user
             elif user_inp_3 == '2':
-                print("---------PARTICIPATION STATUS---------")
+                print("\n\n\n---------PARTICIPATION STATUS---------")
                 print("\tAll participation status will be printed alongside the events")
+                print("\tDisplay list of events Participating/participated in")
                 print("\t1. Ongoing\n2. Completed")
 
+            # Display Logout
             elif user_inp_3 == '3':
-                print("---------LOG OUT---------")
-                print("Logout function will be used")
+                print("\n\n\n---------LOG OUT---------")
+                print("\tLogout function will be used")
                 break
