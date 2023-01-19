@@ -4,28 +4,31 @@
 # Importing Pandas and time
 import pandas as pd
 import time
+import random as r
 
-global user_info
+global user_info, user_id
 
 
 def login():
     while True:
-        print("\n\n\n---------LOGIN---------")
+        global user_info, user_id
+        print("\n\n\n\t---------LOGIN---------")
         print("\n\tLogin as:\n\t1. Admin\n\t2. Student")
         user_inp_2 = input("\tChoose (Enter number): ")
 
         # Login as admin
         time.sleep(2)
         if user_inp_2 == '1':
-            print("\n\n\n---------LOGIN(ADMIN)---------")
+            print("\n\n\n\t---------LOGIN(ADMIN)---------")
 
             # Assigning Userpass_Adm Sheet to New var
             userpass_adm_xl = pd.read_excel(userpass, 'Admins')
 
             # Username:User_infos as key:value pair
-            user_infos = list(zip(userpass_adm_xl.PASSWORDS, userpass_adm_xl.NAME,
-                                  userpass_adm_xl.T_NT, userpass_adm_xl.POST,
-                                  userpass_adm_xl.EMAIL, userpass_adm_xl.ROLE))
+            user_infos = list(zip(userpass_adm_xl.PASSWORDS, userpass_adm_xl.USER_IDS,
+                                  userpass_adm_xl.NAME, userpass_adm_xl.T_NT,
+                                  userpass_adm_xl.POST, userpass_adm_xl.EMAIL,
+                                  userpass_adm_xl.ROLE))
             userpass_adm = dict(zip(userpass_adm_xl.USERNAMES, user_infos))
 
             # Variable to control the no. of times user can keep entering wrong password
@@ -46,9 +49,17 @@ def login():
                             print("\tThank you")
                             time.sleep(2)
                             print("\tYou will shortly be taken to the main page")
-                            user_info.append(username)
+
+                            user_id = userpass_adm[username][1]
+                            user_info_list = [username]
+
                             for i in userpass_adm[username]:
-                                user_info.append(i)
+                                if i == user_id:
+                                    continue
+                                else:
+                                    user_info_list.append(i)
+
+                            user_info = {user_id: user_info_list}
                             break
 
                         elif password != userpass_adm[username][0]:
@@ -88,21 +99,21 @@ def login():
                     continue
 
             # Breaking from loop if successfully passed the checking
-            if (username == user_info[0]) and (password == user_info[1]):
+            if (username == user_info[user_id][0]) and (password == user_info[user_id][1]):
                 break
 
         # -----------------------------------------------------------------------------------------------------------------------
 
         elif user_inp_2 == '2':  # Login as student
-            print("\n\n\n---------LOGIN(STUDENT)---------")
+            print("\n\n\n\t---------LOGIN(STUDENT)---------")
 
             # Assigning Userpass_Std Sheet to New var
             userpass_std_xl = pd.read_excel(userpass, 'Students')
 
             # Usernames : Password as key value pair
-            user_infos = list(zip(userpass_std_xl.PASSWORDS, userpass_std_xl.NAME,
-                                  userpass_std_xl.CLASS, userpass_std_xl.SEC,
-                                  userpass_std_xl.EMAIL, userpass_std_xl.ROLE))
+            user_infos = list(zip(userpass_std_xl.PASSWORDS, userpass_std_xl.USER_IDS,
+                                  userpass_std_xl.NAME, userpass_std_xl.CLASS,
+                                  userpass_std_xl.SEC, userpass_std_xl.EMAIL, userpass_std_xl.ROLE))
             userpass_std = dict(zip(userpass_std_xl.USERNAMES, user_infos))
 
             # Variable to control the no. of times user can keep entering wrong password
@@ -123,9 +134,17 @@ def login():
                             print("\tThank you")
                             time.sleep(2)
                             print("\tYou will shortly be taken to the main page")
-                            user_info.append(username)
+
+                            user_id = userpass_std[username][1]
+                            user_info_list = [username]
+
                             for i in userpass_std[username]:
-                                user_info.append(i)
+                                if i == user_id:
+                                    continue
+                                else:
+                                    user_info_list.append(i)
+
+                            user_info = {user_id: user_info_list}
                             break
 
                         elif password != userpass_std[username][0]:
@@ -165,7 +184,7 @@ def login():
                     continue
 
             # Breaking from loop if successfully passed the checking
-            if (username == user_info[0]) and (password == user_info[1]):
+            if (username == user_info[user_id][0]) and (password == user_info[user_id][1]):
                 break
 
         # -----------------------------------------------------------------------------------------------------------------------
@@ -178,7 +197,7 @@ def login():
 
 def signup():
     while True:
-        print("\n\n\n---------SIGNUP---------")
+        print("\n\n\n\t---------SIGNUP---------")
         print("\n\tSignup as:\n\t1. Admin\n\t2. Student")
         user_inp_2 = input("\tChoose (Enter number): ")
         
@@ -189,7 +208,8 @@ def signup():
         # Signup as admin
         time.sleep(2)
         if user_inp_2 == '1':
-            print("\n\n\n---------SIGNUP(ADMIN)---------")
+            
+            print("\n\n\n\t---------SIGNUP(ADMIN)---------")
 
             # Assigning Userpass_Adm Sheet to New var
             userpass_adm_xl = pd.read_excel(userpass, 'Admins')
@@ -197,6 +217,7 @@ def signup():
             # Individually putting data into their respective lists
             username_adm = list(userpass_adm_xl.USERNAMES)
             password_adm = list(userpass_adm_xl.PASSWORDS)
+            ids_adm = list(userpass_adm_xl.USER_IDS)
             name_adm = list(userpass_adm_xl.NAME)
             t_nt_adm = list(userpass_adm_xl.T_NT)
             role_adm = list(userpass_adm_xl.ROLE)
@@ -204,9 +225,24 @@ def signup():
             email_adm = list(userpass_adm_xl.EMAIL)
 
             # Taking Information related to user
+            print("\n\t------RULES------")
+            print("\tFor Username:-")
+            print("\tUse any key other than '@'")
+            print("\n\tFor Password:-")
+            print("\tPassword must consist of the following:")
+            print("\t1. 8-20 Characters long")
+            print("\t2. Consist of letters A-Z and a-z")
+            print("\t3. Consist of digits 0-9")
+            print("\t4. Consist of any special characters")
             username = input("\n\tUsername: ")
 
             # Checking if username already exists in userpass_std
+            if '@' in username is True:
+                print("\n\tInvalid Username")
+                print("'@' has been found")
+                print("You'll be taken to the Signup Page")
+                continue
+
             if username in username_adm:
                 print("\tUsername already exists")
                 print("\t1. Are you an existing user:")
@@ -224,11 +260,6 @@ def signup():
 
             # Loop to ensure Valid password is entered
             while True:
-                print("\tPassword must consist of the following:")
-                print("\t1. 8-20 Characters long")
-                print("\t2. Consist of letters A-Z and a-z")
-                print("\t3. Consist of digits 0-9")
-                print("\t4. Consist of any special characters")
                 password = input("\tPassword: ")
 
                 # Parameter to count the no. of special characters
@@ -282,7 +313,7 @@ def signup():
             # Taking Inputs as first name and last name and individually holding checks
             while True:
                 time.sleep(2)
-                print("\n\n\n---------PERSONAL INFORMATION---------")
+                print("\n\n\n\t---------PERSONAL INFORMATION---------")
                 f_name = input("\n\tFirst Name: ")
                 l_name = input("\tLast Name: ")
 
@@ -352,15 +383,31 @@ def signup():
                         email.endswith("@hotmail.com") or
                         email.endswith("@yahoo.com")):
                     print("\tValid Email")
-                    print()
                     break
                 else:
                     print("\tInvalid Email")
                     continue
 
+            # List containing all the numbers used for ids
+            ids_used = []
+
+            # Loop for partitioning ids into numbers and appending numbers to ids_used
+            for i in ids_adm:
+                split = i.partition('@')
+                id_num_used = int(split[2])
+                ids_used.append(id_num_used)
+
+            # Loop for Assigning numbers; hence creating a user id
+            while True:
+                i = r.randrange(100, 121)
+                if i not in ids_used:
+                    user_id = username + '@' + str(i)
+                    break
+
             # Appending new values entered to lists
             username_adm.append(username)
             password_adm.append(password)
+            ids_adm.append(user_id)
             name_adm.append(name)
             t_nt_adm.append(t_nt)
             role_adm.append(role)
@@ -370,7 +417,7 @@ def signup():
             # Creating Dataframe of appended lists
             user_info_adm = pd.DataFrame(list(zip(username_adm, password_adm, name_adm,
                                                   t_nt_adm, role_adm, post_adm, email_adm)),
-                                         columns=['USERNAMES', 'PASSWORDS', 'NAME',
+                                         columns=['USERNAMES', 'PASSWORDS', 'USER_IDS', 'NAME',
                                                   'T_NT', 'ROLE', 'POST', 'EMAIL'])
 
             # Transferring updated df to Excel sheet = 'Admins'
@@ -378,7 +425,7 @@ def signup():
                 user_info_adm.to_excel(writer, sheet_name='Admins')
 
             time.sleep(1)
-            print("\n\n\n\tThank you for signing up")
+            print("\n\tThank you for signing up")
             time.sleep(2)
             print("\n\tYou will be taken to the login page")
             time.sleep(2)
@@ -388,12 +435,15 @@ def signup():
 
         # Signup as Student
         elif user_inp_2 == '2':
+            
+            print("\n\n\n\t---------SIGNUP(STUDENT)---------")
             # Assigning Userpass_Adm Sheet to New var
             userpass_std_xl = pd.read_excel(userpass, 'Students')
 
             # Individually putting data into their respective lists
             username_std = list(userpass_std_xl.USERNAMES)
             password_std = list(userpass_std_xl.PASSWORDS)
+            ids_std = list(userpass_std_xl.USER_IDS)
             name_std = list(userpass_std_xl.NAME)
             clss_std = list(userpass_std_xl.CLASS)
             sec_std = list(userpass_std_xl.SEC)
@@ -401,9 +451,24 @@ def signup():
             email_std = list(userpass_std_xl.EMAIL)
 
             # Taking Information related to user
-            username = input("\n\n\n\tUsername: ")
+            print("\n\t------RULES------")
+            print("\tFor Username:-")
+            print("\tUse any key other than '@'")
+            print("\n\tFor Password:-")
+            print("\tPassword must consist of the following:")
+            print("\t1. 8-20 Characters long")
+            print("\t2. Consist of letters A-Z and a-z")
+            print("\t3. Consist of digits 0-9")
+            print("\t4. Consist of any special characters")
+            username = input("\n\tUsername: ")
 
             # Checking if username already exists in userpass_std
+            if '@' in username is True:
+                print("\n\tInvalid Username")
+                print("'@' has been found")
+                print("You'll be taken to the Signup Page")
+                continue
+
             if username in username_std:
                 print("\tUsername already exists")
                 print("\t1. Are you an existing user:")
@@ -421,11 +486,6 @@ def signup():
 
             # Loop to ensure Valid password is entered
             while True:
-                print("Password must consist of the following:")
-                print("\t1. 8-20 Characters long")
-                print("\t2. Consist of letters A-Z and a-z")
-                print("\t3. Consist of digits 0-9")
-                print("\t4. Consist of any special characters")
                 password = input("\tPassword: ")
 
                 # Parameter to count the no. of special characters
@@ -543,15 +603,31 @@ def signup():
                         continue
                     '''
                     print("\tValid E-mail")
-                    print("You'll be taken further")
                     break
                 else:
                     print("\tInvalid Email")
                     continue
 
+            # List containing all the numbers used for ids
+            ids_used = []
+
+            # Loop for partitioning ids into numbers and appending numbers to ids_used
+            for i in ids_std:
+                split = i.partition('@')
+                id_num_used = int(split[2])
+                ids_used.append(id_num_used)
+
+            # Loop for Assigning numbers; hence creating a user id
+            while True:
+                i = r.randint(100, 120)
+                if i not in ids_used:
+                    user_id = username + '@' + str(i)
+                    break
+
             # Appending new values entered to the lists
             username_std.append(username)
             password_std.append(password)
+            ids_std.append(user_id)
             name_std.append(name)
             clss_std.append(clss)
             sec_std.append(sec)
@@ -559,9 +635,9 @@ def signup():
             email_std.append(email)
 
             # Creating Dataframe of the appended lists
-            user_info_std = pd.DataFrame(list(zip(username_std, password_std, name_std,
+            user_info_std = pd.DataFrame(list(zip(username_std, password_std, ids_std, name_std,
                                                   clss_std, sec_std, role_std, email_std)),
-                                         columns=['USERNAMES', 'PASSWORDS', 'NAME', 'CLASS',
+                                         columns=['USERNAMES', 'PASSWORDS', 'USER_IDS', 'NAME', 'CLASS',
                                                   'SEC', 'ROLE', 'EMAIL'])
 
             # Transferring updated df to Excel sheet = 'Students'
@@ -569,7 +645,7 @@ def signup():
                 user_info_std.to_excel(writer, sheet_name='Students')
 
             time.sleep(1)
-            print("\n\n\n\tThank you for signing up")
+            print("\n\tThank you for signing up")
             time.sleep(2)
             print("\n\tYou will be taken to the login page")
             time.sleep(2)
@@ -582,11 +658,231 @@ def signup():
             continue
 
 
-# Actual Program
-print("---------Welcome to Event Management System---------")
+def profile():
+    # Profile Function for Admin & Student
+    while True:
+        print("\n\n\n\t---------PROFILE---------")
+        print("\n\t1. View Account Information")
+        print("\t2. View Personal Information")
+        print("\t3. Exit")
+        user_inp_4 = input("\tChoose (Enter number only): ")
 
+        if role == 'Admin':
+            if user_inp_4 == '1':
+                while True:
+                    print("\n\n\n\t---------ACCOUNT INFORMATION---------")
+                    print(f"\n\tUser ID: {user_id}")
+                    print(f"\tUsername: {username}")
+                    print(f"\tRole: {role}")
+                    print("\n\t1. View Password")
+                    print("\t2. Edit Account Information")
+                    print("\t3. Exit")
+                    user_inp_5 = input("\tChoose (Enter number only): ")
+
+                    if user_inp_5 == '1':
+                        print("\n\n\n\t---------VIEW PASSWORD---------")
+                        code = int(input("\tEnter Access Code: "))
+                        if code == acc_code:
+                            print("\tSuccessful")
+                            print("\n\tYou'll be shown your password")
+                            print(f"\n\tPassword: {password}")
+
+                    elif user_inp_5 == '2':
+                        print("\n\n\n\t---------EDIT ACCOUNT INFORMATION---------")
+                        print("\n\t1. Edit Username")
+                        print("\t2. Edit Password")
+                        user_inp_6 = input("\tChoose (Enter number only): ")
+
+                        if user_inp_6 == '1':
+                            print("\n\n\n\t---------CHANGE PASSWORD---------")
+                            pass
+
+                        elif user_inp_6 == '2':
+                            print("\n\n\n\t---------CHANGE USERNAME---------")
+                            pass
+
+                        else:
+                            print("\tInvalid Number")
+                            print("\tYou'll be taken to the Account Information Page")
+                            print("\tPlease Enter a Valid Option after taken back")
+                            continue
+
+                    elif user_inp_5 == '3':
+                        print("\tYou'll be taken to the Profile Page")
+                        break
+
+                    else:
+                        print("\tInvalid Number")
+                        print("\tYou'll be taken to the Account Information Page")
+                        print("\tPlease Enter a Valid Option after taken back")
+                        continue
+
+            elif user_inp_4 == '2':
+                while True:
+                    print("\n\n\n\t---------PERSONAL INFORMATION---------")
+                    print(f"\n\tName: {name}")
+                    print(f"\tTeaching/Non-Teaching: {t_nt}")
+                    print(f"\tEmail: {email}")
+                    print(f"\tPost: {post}")
+                    print("\n\t1. Edit Personal Information")
+                    print("\t2. Exit")
+                    user_inp_5 = input("\tChoose (Enter number only): ")
+
+                    if user_inp_5 == '1':
+                        print("\n\n\n\t---------EDIT PERSONAL INFORMATION---------")
+                        print("\t1. Edit Email")
+                        print("\t2. Edit Post")
+                        user_inp_6 = input("\tChoose (Enter number only): ")
+
+                        if user_inp_6 == '1':
+                            print("\n\n\n\t---------EDIT EMAIL---------")
+                            pass
+
+                        elif user_inp_6 == '2':
+                            print("\n\n\n\t---------EDIT POST---------")
+                            pass
+
+                        else:
+                            print("\tInvalid Number")
+                            print("\tYou'll be taken to the Personal Information Page")
+                            print("\tPlease Enter a Valid Option after taken back")
+                            continue
+
+                    elif user_inp_5 == '2':
+                        print("\tYou'll be taken to the Profile Page")
+                        break
+
+                    else:
+                        print("\tInvalid Number")
+                        print("\tYou'll be taken to the Personal Information Page")
+                        print("\tPlease Enter a Valid Option after taken back")
+                        continue
+
+            elif user_inp_4 == '3':
+                print("\tYou'll be taken to the Settings Page")
+                break
+
+            else:
+                print("\tInvalid Number")
+                print("\tYou'll be taken to the Profile Page")
+                print("\tPlease Enter a Valid Option after taken back")
+                continue
+
+        if role == 'Student':
+            if user_inp_4 == '1':
+                while True:
+                    print("\n\n\n\t---------ACCOUNT INFORMATION---------")
+                    print(f"\n\tUser ID: {user_id}")
+                    print(f"\tUsername: {username}")
+                    print(f"\tRole: {role}")
+                    print("\n\t1. View Password")
+                    print("\t2. Edit Account Information")
+                    print("\t3. Exit")
+                    user_inp_5 = input("\tChoose (Enter number only): ")
+
+                    if user_inp_5 == '1':
+                        print("\n\n\n\t---------VIEW PASSWORD---------")
+                        code = int(input("\tEnter Access Code: "))
+                        if code == acc_code:
+                            print("\tSuccessful")
+                            print("\n\tYou'll be shown your password")
+                            print(f"\n\tPassword: {password}")
+
+                    elif user_inp_5 == '2':
+                        print("\n\n\n\t---------EDIT ACCOUNT INFORMATION---------")
+                        print("\n\t1. Edit Username")
+                        print("\t2. Edit Password")
+                        user_inp_6 = input("\tChoose (Enter number only): ")
+
+                        if user_inp_6 == '1':
+                            print("\n\n\n\t---------CHANGE PASSWORD---------")
+                            pass
+
+                        elif user_inp_6 == '2':
+                            print("\n\n\n\t---------CHANGE USERNAME---------")
+                            pass
+
+                        else:
+                            print("\tInvalid Number")
+                            print("\tYou'll be taken to the Account Information Page")
+                            print("\tPlease Enter a Valid Option after taken back")
+                            continue
+
+                    elif user_inp_5 == '3':
+                        print("\tYou'll be taken to the Profile Page")
+                        break
+
+                    else:
+                        print("\tInvalid Number")
+                        print("\tYou'll be taken to the Account Information Page")
+                        print("\tPlease Enter a Valid Option after taken back")
+                        continue
+
+            elif user_inp_4 == '2':
+                while True:
+                    print("\n\n\n\t---------PERSONAL INFORMATION---------")
+                    print(f"\n\tName: {name}")
+                    print(f"\tClass: {clss}")
+                    print(f"\tSection: {sec}")
+                    print(f"\tEmail: {email}")
+                    print("\n\t1. Edit Personal Information")
+                    print("\t2. Exit")
+                    user_inp_5 = input("\tChoose (Enter number only): ")
+
+                    if user_inp_5 == '1':
+                        print("\n\n\n\t---------EDIT PERSONAL INFORMATION---------")
+                        print("\t1. Edit Email")
+                        print("\t2. Edit Class")
+                        print("\t3. Edit Section")
+                        user_inp_6 = input("\tChoose (Enter number only): ")
+
+                        if user_inp_6 == '1':
+                            print("\n\n\n\t---------EDIT EMAIL---------")
+                            pass
+
+                        elif user_inp_6 == '2':
+                            print("\n\n\n\t---------EDIT CLASS---------")
+                            pass
+
+                        elif user_inp_6 == '3':
+                            print("\n\n\n\t---------EDIT SECTION---------")
+                            pass
+
+                        else:
+                            print("\tInvalid Number")
+                            print("\tYou'll be taken to the Personal Information Page")
+                            print("\tPlease Enter a Valid Option after taken back")
+                            continue
+
+                    elif user_inp_5 == '2':
+                        print("\tYou'll be taken to the Profile Page")
+                        break
+
+                    else:
+                        print("\tInvalid Number")
+                        print("\tYou'll be taken to the Personal Information Page")
+                        print("\tPlease Enter a Valid Option after taken back")
+                        continue
+
+            elif user_inp_4 == '3':
+                print("\tYou'll be taken to the Settings Page")
+                break
+
+            else:
+                print("\tInvalid Number")
+                print("\tYou'll be taken to the Profile Page")
+                print("\tPlease Enter a Valid Option after taken back")
+                continue
+
+
+# Actual Program
+print("\t---------EVENT MANAGEMENT SYSTEM---------")
+print("\n\n\n\t---------WELCOME---------")
+time.sleep(2)
+
+# Displaying Login/Signup Interface
 while True:
-    print("---------LOGIN/SIGNUP---------")
+    print("\n\n\n\t---------LOGIN/SIGNUP---------")
     print("\t1. Login\n\t2. Signup")
     user_inp_1 = input("\tChoose (Enter number): ")
 
@@ -595,7 +891,6 @@ while True:
 
     # Obtaining Excel file containing Usernames and passwords
     userpass = pd.ExcelFile(root)
-    user_info = []
 
     if user_inp_1 == '1':
         login()
@@ -608,11 +903,32 @@ while True:
         print("Enter a Valid Option: ")
         continue
 
+# Values
+role = user_info[user_id][6]
+# Assigning values to repsective variables depending on role of user
+
+if role == 'Admin':
+    username = user_info[user_id][0]
+    password = user_info[user_id][1]
+    name = user_info[user_id][2]
+    t_nt = user_info[user_id][3]
+    post = user_info[user_id][4]
+    email = user_info[user_id][5]
+    acc_code = 1234
+
+elif role == 'Student':
+    username = user_info[user_id][0]
+    password = user_info[user_id][1]
+    name = user_info[user_id][2]
+    clss = user_info[user_id][3]
+    sec = user_info[user_id][4]
+    email = user_info[user_id][5]
+    acc_code = 1234
+
 # Displaying Interface
 while True:
-    if user_info[len(user_info) - 1] == 'Admin':
-
-        # Admin Interface
+    # Admin Interface
+    if user_info[user_id][6] == 'Admin':
         print("\n\n\n\t---------HOME---------")
         print("\n\t1. Events")
         print("\t2. Post")
@@ -621,12 +937,12 @@ while True:
 
         # Displays Events
         if user_inp_2 == '1':
-            print("\n\n\n---------EVENTS---------")
+            print("\n\n\n\t---------EVENTS---------")
             print("\tAll details regarding ongoing events will be printed")
 
         # Displays Post
         elif user_inp_2 == '2':
-            print("\n\n\n---------POST---------")
+            print("\n\n\n\t---------POST---------")
             print("\n\t1. Announcements")
             print("\t2. Participation List")
             print("\t3. Winners")
@@ -634,7 +950,7 @@ while True:
 
             # Displays Announcements
             if user_inp_3 == '1':
-                print("\n\n\n------------ANNOUNCEMENTS---------")
+                print("\n\n\n\t------------ANNOUNCEMENTS---------")
                 print("\n\tAnnounce the following")
                 print("\t1. New Event")
                 print("\t2. New Notice")
@@ -644,7 +960,7 @@ while True:
 
                 # Displays Event Announcement
                 if user_inp_4 == '1':
-                    print("\n\n\n---------EVENT ANNOUNCEMENT---------")
+                    print("\n\n\n\t---------EVENT ANNOUNCEMENT---------")
                     print("\tDisplay the post button of an event")
                     print("\tAllow them to deploy circulars")
 
@@ -655,47 +971,45 @@ while True:
 
                 # Displays Edit Event
                 elif user_inp_4 == '3':
-                    print("\n\n\n---------EDIT EVENT---------")
+                    print("\n\n\n\t---------EDIT EVENT---------")
                     print("\tDisplay all the events and let the user choose which one to edit")
 
                 # Displays Edit Notice
                 elif user_inp_4 == '4':
-                    print("\n\n\n---------EDIT NOTICE---------")
+                    print("\n\n\n\t---------EDIT NOTICE---------")
                     print("\tDisplay all the notices and let the user choose which one to edit")
 
             # Displays Ongoing events and their Participation
             elif user_inp_3 == '2':
-                print("\n\n\n---------PARTICIPATION---------")
+                print("\n\n\n\t---------PARTICIPATION---------")
                 print("\tDisplay all the Events Titles")
                 print("\tAllow the user to choose the participation list from that event")
 
             # Displays Winner Option to announce winner
             elif user_inp_3 == '3':
-                print("\n\n\n---------WINNERS---------")
+                print("\n\n\n\t---------WINNERS---------")
                 print("\tLet user choose an event")
                 print("\tLet user announce the winners names and so on")
 
         # Displays Settings
         elif user_inp_2 == '3':
-            print("\n\n\n---------SETTINGS---------")
+            print("\n\n\n\t---------SETTINGS---------")
             print("\n\t1. Profile")
             print("\t2. Log out")
             user_inp_3 = input("\tChoose (Enter number only): ")
 
             # Displays Profile of User
             if user_inp_3 == '1':
-                print("\n\n\n---------PROFILE---------")
-                print("\tAll details regarding user will be displayed")
+                profile()
 
             # Displays Logout
             elif user_inp_3 == '2':
-                print("\n\n\n---------LOG OUT---------")
+                print("\n\n\n\t---------LOG OUT---------")
                 print("\tLogout function will be used")
                 break
 
-    elif user_info[len(user_info) - 1] == 'Student':
-
-        # Student Interface
+    # Student Interface
+    elif user_info[user_id][6] == 'Student':
         print("\n\n\n\t---------HOME---------")
         print("\n\t1. Events")
         print("\t2. Post")
@@ -704,30 +1018,30 @@ while True:
 
         # Display Events
         if user_inp_2 == '1':
-            print("\n\n\n---------EVENTS---------")
+            print("\n\n\n\t---------EVENTS---------")
             print("\tAll details regarding ongoing events will be printed")
 
         # Display Post
         elif user_inp_2 == '2':
-            print("\n\n\n---------POST---------")
+            print("\n\n\n\t---------POST---------")
             print("\n\t1. Event Participation")
             print("\t2. Circular/Form Fill")
             user_inp_3 = input("\tChoose (Enter number only): ")
 
             # Display Event Participation
             if user_inp_3 == '1':
-                print("\n\n\n---------EVENT PARTICIPATION---------")
+                print("\n\n\n\t---------EVENT PARTICIPATION---------")
                 print("\tDisplay all the ongoing events")
                 print("\t(Possible events to participate in)")
 
             # Display Circulars/Forms to be filled
             elif user_inp_3 == '2':
-                print("\n\n\n---------CIRCULAR/FORM FILL---------")
+                print("\n\n\n\t---------CIRCULAR/FORM FILL---------")
                 print("\tDisplay all the circulars related to ongoing events")
 
         # Display Settings
         elif user_inp_2 == '3':
-            print("\n\n\n---------SETTINGS---------")
+            print("\n\n\n\t---------SETTINGS---------")
             print("\n\t1. Profile")
             print("\t2. Participation status")
             print("\t3. Log out")
@@ -735,18 +1049,17 @@ while True:
 
             # Display Profile of the user
             if user_inp_3 == '1':
-                print("\n\n\n---------PROFILE---------")
-                print("\tAll details regarding user will be displayed")
+                profile()
 
             # Display Participation Status of user
             elif user_inp_3 == '2':
-                print("\n\n\n---------PARTICIPATION STATUS---------")
+                print("\n\n\n\t---------PARTICIPATION STATUS---------")
                 print("\tAll participation status will be printed alongside the events")
                 print("\tDisplay list of events Participating/participated in")
-                print("\t1. Ongoing\n2. Completed")
+                print("\t1. Ongoing\n\t2. Completed")
 
             # Display Logout
             elif user_inp_3 == '3':
-                print("\n\n\n---------LOG OUT---------")
+                print("\n\n\n\t---------LOG OUT---------")
                 print("\tLogout function will be used")
                 break
