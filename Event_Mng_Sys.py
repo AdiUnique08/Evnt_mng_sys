@@ -9,6 +9,7 @@ import random as r
 global user_info, user_id
 global username_adm, password_adm, ids_adm, name_adm, t_nt_adm, role_adm, post_adm, email_adm
 global username_std, password_std, ids_std, name_std, clss_std, sec_std, role_std, email_std
+global check
 
 
 def obtain_data():
@@ -63,7 +64,71 @@ def transfer_data():
         # Transferring updated df to Excel sheet = 'Students'
         writer = pd.ExcelWriter(root, engine='openpyxl', if_sheet_exists='overlay', mode='a')
         user_info_std.to_excel(writer, sheet_name='Students')
-        
+
+
+def password_check():
+    global check
+    while True:
+        # Parameter to count the no. of special characters
+        count = 0
+
+        # Checks if password consists of the minimum characters
+        if (len(password) >= 8) and (len(password) <= 20):
+
+            # Checking whether password consists of letter and digits
+            if password.isalnum() is False:
+                if (password.isalpha() is False) and (password.isdigit() is False):
+
+                    # Checking whether password consists of special characters:
+                    for i in password:
+                        if i in spec_ch:
+                            count += 1
+                            if i == password[len(password) - 1]:
+                                break
+                            else:
+                                continue
+                        else:
+                            continue
+
+                    # Setting timer of 2 seconds before the checking starts
+                    time.sleep(2)
+
+                    # Checking if special characters did exist or not
+                    if count > 0:
+                        print("\tValid password")
+                        print("\tYou'll be taken further")
+                        input("\tPress Enter to continue")
+                        check = 'Successful'
+                        break
+                    else:
+                        print("\tPassword doesn't consist of any special characters.")
+                        print("\tPlease add a special character")
+                        check = 'Unsuccessful'
+                        break
+
+                elif (password.isalpha() is False) and (password.isdigit() is True):
+                    print("\tPassword doesn't consist of letters")
+                    print("\tPlease add letter a-z or A-Z")
+                    check = 'Unsuccessful'
+                    break
+
+                elif (password.isalpha() is True) and (password.isdigit() is False):
+                    print("\tPassword doesn't consist of numbers")
+                    print("\tPlease add numbers from 0-9")
+                    check = 'Unsuccessful'
+                    break
+
+            else:
+                print("\tPassword consists of Letters and Digits with no separation")
+                print("\tPlease add whitespaces (space) between letters and digits")
+                check = 'Unsuccessful'
+                break
+
+        else:
+            print("\tPassword must consist of 8-20 characters")
+            check = 'Unsuccessful'
+            continue
+
 
 def login():
     while True:
@@ -189,7 +254,7 @@ def login():
                         if password == userpass_std[username][0]:
                             print("\tThank you")
                             time.sleep(2)
-                            print("\tYou will shortly be taken to the main page")
+                            print("\tYou will shortly be taken away from login page")
 
                             user_id = userpass_std[username][1]
                             user_info_list = [username]
@@ -295,60 +360,19 @@ def signup():
                     print("\tPlease use another username")
                     print("\tYou'll be taken to the Signin page")
                     continue
-                    
+
             else:
                 print("\tValid Username")
 
             # Loop to ensure Valid password is entered
             while True:
                 password = input("\tPassword: ")
+                password_check()
 
-                # Parameter to count the no. of special characters
-                count = 0
+                if check == 'Successful':
+                    break
 
-                # Checks if password consists of the minimum characters
-                if (len(password) >= 8) and (len(password) <= 20):
-
-                    # Checking whether password consists of letter and digits
-                    if password.isalnum() is False:
-                        if (password.isalpha() is False) and (password.isdigit() is False):
-
-                            # Checking whether password consists of special characters:
-                            for i in password:
-                                if i in spec_ch:
-                                    count += 1
-                                    if i == password[len(password) - 1]:
-                                        break
-                                    else:
-                                        continue
-                                else:
-                                    continue
-
-                            # Setting timer of 2 seconds before the checking starts
-                            time.sleep(2)
-
-                            # Checking if special characters did exist or not
-                            if count > 0:
-                                print("\tValid password")
-                                print("\tYou'll be taken further")
-                                input("\tPress Enter to continue")
-                                break
-                            else:
-                                print("\tPassword doesn't consist of any special characters.")
-                                print("\tPlease add a special character")
-                                continue
-
-                        elif (password.isalpha() is False) and (password.isdigit() is True):
-                            print("\tPassword doesn't consist of letters")
-                            print("\tPlease add letter a-z or A-Z")
-                            continue
-
-                        elif (password.isalpha() is True) and (password.isdigit() is False):
-                            print("\tPassword doesn't consist of numbers")
-                            print("\tPlease add numbers from 0-9")
-                            continue
                 else:
-                    print("\tPassword must consist of 8-20 characters")
                     continue
 
             # Taking Inputs as first name and last name and individually holding checks
@@ -489,53 +513,12 @@ def signup():
             # Loop to ensure Valid password is entered
             while True:
                 password = input("\tPassword: ")
+                password_check()
 
-                # Parameter to count the no. of special characters
-                count = 0
+                if check == 'Successful':
+                    break
 
-                # Checks if password consists of the minimum characters
-                if (len(password) >= 8) and (len(password) <= 20):
-
-                    # Checking whether password consists of letter and digits
-                    if password.isalnum() is False:
-                        if (password.isalpha() is False) and (password.isdigit() is False):
-
-                            # Checking whether password consists of special characters:
-                            for i in password:
-                                if i in spec_ch:
-                                    count += 1
-                                    if i == password[len(password) - 1]:
-                                        break
-                                    else:
-                                        continue
-                                else:
-                                    continue
-
-                            # Setting timer of 2 seconds before the checking starts
-                            time.sleep(2)
-
-                            # Checking if special characters did exist or not
-                            if count > 0:
-                                print("\tValid username and password")
-                                print("\tYou'll be taken further")
-                                input("\tPress Enter to continue")
-                                break
-                            else:
-                                print("\tPassword doesn't consist of any special characters.")
-                                print("\tPlease add a special character")
-                                continue
-
-                        elif (password.isalpha() is False) and (password.isdigit() is True):
-                            print("\tPassword doesn't consist of letters")
-                            print("\tPlease add letter a-z or A-Z")
-                            continue
-
-                        elif (password.isalpha() is True) and (password.isdigit() is False):
-                            print("\tPassword doesn't consist of numbers")
-                            print("\tPlease add numbers from 0-9")
-                            continue
                 else:
-                    print("\tPassword must consist of 8-20 characters")
                     continue
 
             # Taking Inputs as first name and last name and individually holding checks
@@ -793,8 +776,16 @@ def edit_password():
 
                     if user_inp_7.lower() == 'yes':
                         while True:
+                            print("\n\n\n---------NEW PASSWORD---------")
+                            print("\n\t------RULES------")
+                            print("\tPassword must consist of the following:")
+                            print("\t1. 8-20 Characters long")
+                            print("\t2. Consist of letters A-Z and a-z")
+                            print("\t3. Consist of digits 0-9")
+                            print("\t4. Consist of any special characters")
                             password = input("New Password: ")
                             confirm_password = input("Confirm Password: ")
+                            password_check()
 
                             if password == confirm_password:
                                 for i in range(0, len(password_adm)):
@@ -844,6 +835,7 @@ def edit_password():
                         while True:
                             password = input("New Password: ")
                             confirm_password = input("Confirm Password: ")
+                            password_check()
 
                             if password == confirm_password:
                                 for i in range(0, len(password_std)):
