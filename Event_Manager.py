@@ -7,11 +7,11 @@ import time
 import random as r
 
 global root, userpass, userpass_adm_xl, userpass_std_xl
+global clss, sec
 global user_info, user_id
 global username_adm, password_adm, ids_adm, name_adm, t_nt_adm, role_adm, post_adm, email_adm
 global username_std, password_std, ids_std, name_std, clss_std, sec_std, role_std, email_std
 global role, username, password, name, t_nt, post, email
-global clss, sec
 global check
 
 
@@ -601,6 +601,7 @@ def signup():
 
                 else:
                     print("\n\tValid Username")
+                    check = 'Successful'
                     break
 
             if check == 'Existing':
@@ -1469,6 +1470,7 @@ while True:
             print("\n\t1. Events")
             print("\t2. Post")
             print("\t3. Settings")
+            print("\t4. Logout")
             user_inp_2 = input("\tChoose (Enter number only): ")
 
             # Displays Events
@@ -1552,6 +1554,10 @@ while True:
                 elif check == 'Continue':
                     continue
 
+            if user_inp_2 == '4':
+                logout()
+                break
+
     # Student Interface
     elif role == 'Student':
         while True:
@@ -1559,6 +1565,7 @@ while True:
             print("\n\t1. Events")
             print("\t2. Post")
             print("\t3. Settings")
+            print("\t4. Logout")
             user_inp_2 = input("\tChoose (Enter number only): ")
 
             # Display Events
@@ -1599,3 +1606,7 @@ while True:
                     break
                 elif check == 'Continue':
                     continue
+
+            elif user_inp_2 == '4':
+                logout()
+                break
