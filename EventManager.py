@@ -1153,7 +1153,7 @@ while True:
                         break
 
                     elif inp_2 == '3':
-                        file_name = r'C:\Users\97150\Projects\Data\non-teacher.csv'
+                        file_name = r'C:\Users\97150\Projects\Data\non_teacher_info.csv'
                         check, user_info = signup(file_name, inp_2)
                         break
 
@@ -1217,7 +1217,7 @@ while True:
                     print("\t1. Search by SNo.")
                     print("\t2. Search by Title")
                     print("\t3.You may press any other key to cancel")
-                    inp_2 = input("Choose (Enter number only): ")
+                    inp_2 = input("\tChoose (Enter number only): ")
                     if inp_2 == '1':
                         inp_3 = input("\n\n\tChoose (Enter SNo. from above table): ")
                         check = search_by_sno(user_order, inp_3)
